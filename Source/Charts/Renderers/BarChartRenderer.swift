@@ -384,6 +384,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             for j in stride(from: 0, to: buffer.rects.count, by: 1)
             {
                 let barRect = buffer.rects[j]
+                let cornerRadius: CGFloat = 3.0
+                let bezierPath = UIBezierPath(roundedRect: barRect,
+                                              byRoundingCorners: [.topLeft, .topRight],
+                                              cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
+                let roundedPath = bezierPath.cgPath
                 
                 if (!viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
                 {
@@ -396,7 +401,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 }
                 
                 context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(barRect)
+                context.addPath(roundedPath)
+                context.fillPath()
             }
         }
         
@@ -414,6 +420,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         for j in stride(from: 0, to: buffer.rects.count, by: 1)
         {
             let barRect = buffer.rects[j]
+            let cornerRadius: CGFloat = 3.0
+            let bezierPath = UIBezierPath(roundedRect: barRect,
+                                          byRoundingCorners: [.topLeft, .topRight],
+                                          cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
+            let roundedPath = bezierPath.cgPath
 
             if (!viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
             {
@@ -431,7 +442,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
+            context.addPath(roundedPath)
+            context.fillPath()
             
             if drawBorder
             {
